@@ -13,6 +13,7 @@
     "node": ">=16.16.0"
   },
   "dependencies": {
+    "@prisma/client": "^5.8.1",
     "@shopify/shopify-app-express": "^3.0.0",
     "@shopify/shopify-app-session-storage-prisma": "^2.0.1",
     "@slack/webhook": "^7.0.0",
@@ -29,3 +30,4 @@
     "pretty-quick": "^3.1.3"
   }
 }
+

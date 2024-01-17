@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
-import express from 'express';
+import express, {Router} from 'express';
 import serveStatic from 'serve-static';
 
 import shopify from './shopify.js';
@@ -14,6 +14,9 @@ const STATIC_PATH =
 		: `${process.cwd()}/frontend/`;
 
 const app = express();
+
+
+const myProxy = Router();
 
 // Set up Shopify authentication and webhook handling
 app.get(shopify.config.auth.path, shopify.auth.begin());
@@ -38,5 +41,13 @@ app.use(serveStatic(STATIC_PATH, { index: false }));
 app.use('/*', shopify.ensureInstalledOnShop(), async (_req, res) => {
 	return res.set('Content-Type', 'text/html').send(readFileSync(join(STATIC_PATH, 'index.html')));
 });
+
+app.get('/getAllCart', async (req, res) => {
+	console.log('in Server')
+	const SavedCarts = await prisma.user.findMany()
+	res.json(SavedCarts);
+  });
+
+
 
 app.listen(PORT);
